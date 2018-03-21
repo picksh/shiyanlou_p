@@ -17,30 +17,49 @@ class Args(object):
 
 		indexofinput=args.index('-d')+1
 		if os.path.exists(args[indexofinput])==False
-			ra
+			raise ValueError()
 		return args[indexofinput]
 	def get_output(self):
 
 		indexofoutput=args.index('-o')+1
+		if os.path.exists(args[indexofoutput])==False
+			raise ValueError()
 		return args[indexofoutput]
 		
 
 class Config(object):
-	def __init__(self):
-		self.config=self._read_config()
+	def __init__(self,configfile):
+		self.config=self._read_config(configfile)
 	
 	def _read_config(self):
 		config={}
+		with open(configfile) as file:
+			for line in file.readline():
+				config[strip(line.split('=')[0]]=strip(int(line.split('=')[1]))
+	def get_JiShuH(self):
+		return config[JiShuH]
+	def get_JiShuL(self):
+		return config[JiShuL]
+	def get_othertotal(self):
+		return config[YangLao]+config[YiLiao]+config[ShiYe]+config[GongShang]+config[ShengYu]+config[GongJiJin]
 
 class UserData(object):
-	def __init__(self):
-		self.usrdata=self._read_users.data()
+	def __init__(self,filename):
+		self.usrdata=self._read_users.data(filename)
 
-	def _read_users_data(self):
+
+	def _read_users_data(self,filename):
 		userdata=[]
+		with open(filename) as file:
+			for line in file.readline():
+				userdata.append(int(line.split(',')[0]),int(line.split(',')[1]))
 	
+	def get_userdata(self):
+		return userdata
+
 class IncomeTaxCalculator(object):
 	def calc_for_all_userdata(self):
+
 
 	def export(self,default='csv'):
 		result =self.calc_for_all_userdata()
